@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:id="@+id/menu_group_static"
+        android:checkableBehavior="single">
+        <item android:id="@+id/about_item"
+            android:title="@string/about"
+            android:icon="@drawable/ic_myprojects"
+            android:orderInCategory="0"/>
+        <item android:id="@+id/cerrar_sesion_item"
+            android:title="@string/cerrar_sesion"
+            android:orderInCategory="0"/>
+    </group>
+
+    <group android:id="@+id/menu_group_dynamic"
+        android:checkableBehavior="single">
+        <!--<item android:id="@+id/itemfuera2_1"-->
+            <!--android:title="itemfuera2_1"-->
+            <!--android:orderInCategory="1"/>-->
+        <!--<item android:id="@+id/itemfuera2_2"-->
+            <!--android:title="itemfuera2_2"-->
+            <!--android:orderInCategory="1"/>-->
+    </group>
+
+    <!--<item android:id="@+id/itemfuera2"-->
+    <!--android:title="Comunnication">-->
+    <!--<menu>-->
+    <!--<item android:id="@+id/itemfuera2_1"-->
+    <!--android:title="itemfuera2_1"-->
+    <!--android:orderInCategory="1"/>-->
+    <!--<item android:id="@+id/itemfuera2_2"-->
+    <!--android:title="itemfuera2_2"-->
+    <!--android:orderInCategory="1"/>-->
+    <!--</menu>-->
+    <!--</item>-->
+</menu>

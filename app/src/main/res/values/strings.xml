@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Elink</string>
+    <string name="iniciar_sesion">Iniciar Sesion</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="email">Email</string>
+    <string name="contrasenia">Contraseña</string>
+    <string name="inversoroemprendedor">Eres un inversor o un emprendedor?</string>
+    <string name="inversor">Inversor</string>
+    <string name="emprendedor">Emprendedor</string>
+    <string name="tipo_usuario">Te loguearas como </string>
+    <string name="RETURNED_USERTYPE">returned_userType</string>
+    <string name="TIPOEMPRENDEDOR">emprendedor</string>
+    <string name="TIPOINVERSOR">inversor</string>
+    <string name="RESULT_USERTYPE">result_userType</string>
+    <string name="user_menu">User Menu</string>
+    <string name="help">Help</string>
+    <string name="cerrar_sesion">Cerrar Sesion</string>
+    <string name="myprojects">Mis Proyectos</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="about">About</string>
+
+</resources>

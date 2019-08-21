@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "956549177608",
+    "firebase_url": "https://elink-c59a2.firebaseio.com",
+    "project_id": "elink-c59a2",
+    "storage_bucket": "elink-c59a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:956549177608:android:feb4f243ed09e46d",
+        "android_client_info": {
+          "package_name": "com.example.nicol.elink"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "956549177608-7bu1b9agfapo5j2qmfb8mqbl6fk5929v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nicol.elink",
+            "certificate_hash": "4c3e551751e649411f0fabb00640a3cefef2c7f3"
+          }
+        },
+        {
+          "client_id": "956549177608-6cukv0qk6mk6nrvnt6tp638i33lrp0se.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEcjWkKgvsWtB-jagEViLq_FM0oRJ5gW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "956549177608-6cukv0qk6mk6nrvnt6tp638i33lrp0se.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
