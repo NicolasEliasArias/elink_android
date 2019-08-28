@@ -8,7 +8,7 @@ public class ContenidoProyecto {
 
     public ContenidoProyecto(String titulo, String descripcionBreve, String cuerpo){
         this.titulo = titulo;
-        this. descripcionBreve = descripcionBreve;
+        this.descripcionBreve = descripcionBreve;
         this.cuerpo = cuerpo;
     }
 

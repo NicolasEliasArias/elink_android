@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nicol.elink.Activitys.ActivityAuthentication;
+import com.example.nicol.elink.Activitys.ActivityEmprendedor;
+import com.example.nicol.elink.Activitys.ActivityInversor;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         txt1 = findViewById(R.id.txt1);
-        //int numero = Integer.parseInt(mEditTextNumber.getText().toString()
         this.openActivityAuthentication();
     }
 

@@ -1,6 +1,7 @@
 package com.example.nicol.elink.Usuario;
 import com.example.nicol.elink.Proyecto.Proyecto;
 import com.example.nicol.elink.Proyecto.ProyectoFinanciable;
+
 import java.util.ArrayList;
 
 public class Emprendedor extends Usuario {
@@ -15,14 +16,18 @@ public class Emprendedor extends Usuario {
     }
 
 
-    public void asignarProyecto(ProyectoFinanciable proyecto){
-        this.proyectos.add(proyecto);
-        proyecto.setEmprendedor(this);
+//    public void asignarProyecto(ProyectoFinanciable proyecto){
+//        this.proyectos.add(proyecto);
+//        proyecto.setEmprendedor(this);
+//    }
+    public void asignarProyecto(ProyectoFinanciable proyectoFinanciable){
+        this.proyectos.add(proyectoFinanciable);
+        proyectoFinanciable.setEmprendedorId(getId());
     }
 
-    public ProyectoFinanciable crearProyectoFinanciable(int id, double financiacionNecesaria){
-        ProyectoFinanciable proyecto = new ProyectoFinanciable(id);
-        proyecto.setFinanciacionNecesaria(financiacionNecesaria);
-        return proyecto;
-    }
+//    public ProyectoFinanciable crearProyectoFinanciable(int id, double financiacionNecesaria){
+//        ProyectoFinanciable proyecto = new ProyectoFinanciable(id,this);
+//        proyecto.setFinanciacionNecesaria(financiacionNecesaria);
+//        return proyecto;
+//    }
 }

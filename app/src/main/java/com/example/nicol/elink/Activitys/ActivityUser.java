@@ -1,18 +1,19 @@
-package com.example.nicol.elink;
+package com.example.nicol.elink.Activitys;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
-import com.example.nicol.elink.UI.AboutFragment;
-import com.example.nicol.elink.Usuario.Usuario;
+
+import com.example.nicol.elink.FirebaseElinkManager.FirebaseElinkManager;
+import com.example.nicol.elink.R;
+import com.example.nicol.elink.Fragments.AboutFragment;
+import com.example.nicol.elink.UI.MenuHandler.MenuHandler;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
@@ -24,7 +25,8 @@ public abstract class ActivityUser extends AppCompatActivity{
     private NavigationView navView;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference reference;
-
+    private MenuHandler menuHandler;
+    private FirebaseElinkManager manager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public abstract class ActivityUser extends AppCompatActivity{
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
             navView.setCheckedItem(R.id.about_item);
         }
+        manager = FirebaseElinkManager.getInstance(this);
     }
 
     @Override
@@ -65,37 +68,22 @@ public abstract class ActivityUser extends AppCompatActivity{
     }
 
     public void prepareMenu(){
-        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.about_item:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
-                        break;
-                    case R.id.cerrar_sesion_item:
-                        break;
-                }
-                drawer.closeDrawer(GravityCompat.START);
-                return true;
-            }
-        });
+        menuHandler = new MenuHandler(this);
     }
 
     public abstract void prepareUser();
+
+
     //Getters y Setters-----------------------------------------
     public void setFirebaseAuth(FirebaseAuth firebaseAuth) {
         this.firebaseAuth = firebaseAuth;
     }
-
-
     public void setUserEmailTextView(TextView userEmailTextView) {
         this.userEmailTextView = userEmailTextView;
     }
     public void setUserNameTextView(TextView userNameTextView) {
         this.userNameTextView = userNameTextView;
     }
-
-
     public void setReference(DatabaseReference reference) {
         this.reference = reference;
     }
@@ -122,5 +110,11 @@ public abstract class ActivityUser extends AppCompatActivity{
     }
     public void setDrawer(DrawerLayout drawer) {
         this.drawer = drawer;
+    }
+    public MenuHandler getMenuHandler() {
+        return menuHandler;
+    }
+    public void setMenuHandler(MenuHandler menuHandler) {
+        this.menuHandler = menuHandler;
     }
 }

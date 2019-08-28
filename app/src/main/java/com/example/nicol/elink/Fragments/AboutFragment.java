@@ -1,4 +1,4 @@
-package com.example.nicol.elink.UI;
+package com.example.nicol.elink.Fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

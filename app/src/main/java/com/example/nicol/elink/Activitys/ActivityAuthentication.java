@@ -1,17 +1,18 @@
-package com.example.nicol.elink;
+package com.example.nicol.elink.Activitys;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
+import com.example.nicol.elink.R;
 import com.example.nicol.elink.Usuario.Emprendedor;
 import com.example.nicol.elink.Usuario.Inversor;
 import com.example.nicol.elink.Usuario.Usuario;
@@ -20,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -113,14 +115,12 @@ public class ActivityAuthentication extends Activity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            //usuario se registro exitosamente
                             Toast.makeText(ActivityAuthentication.this, "Logueado exitosamente", Toast.LENGTH_SHORT).show();
                             finishAuth();
                         }else{
-                            //usuario no pudo registrarse
                             Toast.makeText(ActivityAuthentication.this, "No se pudo loguear :(", Toast.LENGTH_SHORT).show();
                         }
-                        progressDialog.dismiss();;
+                        progressDialog.dismiss();
                     }
                 });
     }

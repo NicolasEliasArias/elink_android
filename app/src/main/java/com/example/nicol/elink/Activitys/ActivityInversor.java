@@ -1,8 +1,10 @@
-package com.example.nicol.elink;
+package com.example.nicol.elink.Activitys;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.nicol.elink.R;
 import com.example.nicol.elink.Usuario.Inversor;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
