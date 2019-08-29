@@ -1,5 +1,4 @@
 package com.example.nicol.elink.Fragments;
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,12 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import com.example.nicol.elink.Activitys.ActivityEmprendedor;
-import com.example.nicol.elink.Activitys.ActivityUser;
 import com.example.nicol.elink.Builder.MyProyectViewHolderBuilder;
+import com.example.nicol.elink.DatabaseElinkManager.ElinkProjectsDatabaseManager;
 import com.example.nicol.elink.Director.DirectorViewHolder;
-import com.example.nicol.elink.FirebaseCallback;
+import com.example.nicol.elink.CallBacks.FirebaseCallback;
 import com.example.nicol.elink.Proyecto.ProyectoFinanciable;
-import com.example.nicol.elink.FirebaseElinkManager.FirebaseElinkManager;
 import com.example.nicol.elink.R;
 import com.example.nicol.elink.UI.ViewHolder.ViewHolder;
 import java.util.ArrayList;
@@ -43,14 +41,13 @@ public class MyProyectsFragment extends Fragment {
     }
 
     public void prepareNewProjectsButton(){
-        final FirebaseElinkManager manager = FirebaseElinkManager.getInstance((ActivityUser) getActivity());
         Button btn = new Button(getActivity());
         btn.setText("Nuevo Proyecto");
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ActivityEmprendedor activityEmprendedor = (ActivityEmprendedor) getActivity();
-                ProyectoFinanciable proyectoFinanciable = manager.createNewProyect(activityEmprendedor.getEmprendedor());
+                ProyectoFinanciable proyectoFinanciable = ElinkProjectsDatabaseManager.getInstance(getActivity()).createNewProyect(activityEmprendedor.getEmprendedor());
                 director.setBuilder(new MyProyectViewHolderBuilder(proyectoFinanciable));
                 ViewHolder vh = director.createViewHolder(getActivity(), proyectoFinanciable.getContenido().getTitulo());
                 myprojectsListLayout.addView(vh,0);
@@ -60,10 +57,9 @@ public class MyProyectsFragment extends Fragment {
     }
 
     public void prepareProyects(){
-        final FirebaseElinkManager manager = FirebaseElinkManager.getInstance((ActivityUser) getActivity());
-        manager.getEmprendedorProyects(context.getEmprendedor(), new FirebaseCallback() {
+        ElinkProjectsDatabaseManager.getInstance(getActivity()).getEmprendedorProyects(context.getEmprendedor(), new FirebaseCallback() {
             @Override
-            public void onCallback(ActivityUser context, ArrayList<ProyectoFinanciable> proyectos) {
+            public void onCallback(ArrayList<ProyectoFinanciable> proyectos) {
                 myprojectsListLayout.removeAllViews();
                 setProyectos(proyectos);
                 for (ProyectoFinanciable proy : proyectos){

@@ -1,5 +1,4 @@
 package com.example.nicol.elink.Activitys;
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -9,13 +8,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
-
-import com.example.nicol.elink.FirebaseElinkManager.FirebaseElinkManager;
 import com.example.nicol.elink.R;
 import com.example.nicol.elink.Fragments.AboutFragment;
 import com.example.nicol.elink.UI.MenuHandler.MenuHandler;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 
 public abstract class ActivityUser extends AppCompatActivity{
 
@@ -24,9 +20,7 @@ public abstract class ActivityUser extends AppCompatActivity{
     private TextView userNameTextView;
     private NavigationView navView;
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference reference;
     private MenuHandler menuHandler;
-    private FirebaseElinkManager manager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,7 +35,6 @@ public abstract class ActivityUser extends AppCompatActivity{
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
             navView.setCheckedItem(R.id.about_item);
         }
-        manager = FirebaseElinkManager.getInstance(this);
     }
 
     @Override
@@ -75,45 +68,50 @@ public abstract class ActivityUser extends AppCompatActivity{
 
 
     //Getters y Setters-----------------------------------------
-    public void setFirebaseAuth(FirebaseAuth firebaseAuth) {
-        this.firebaseAuth = firebaseAuth;
-    }
-    public void setUserEmailTextView(TextView userEmailTextView) {
-        this.userEmailTextView = userEmailTextView;
-    }
-    public void setUserNameTextView(TextView userNameTextView) {
-        this.userNameTextView = userNameTextView;
-    }
-    public void setReference(DatabaseReference reference) {
-        this.reference = reference;
-    }
-    public void setNavView(NavigationView navView) {
-        this.navView = navView;
-    }
-    public FirebaseAuth getFirebaseAuth() {
-        return firebaseAuth;
-    }
-    public TextView getUserEmailTextView() {
-        return userEmailTextView;
-    }
-    public DatabaseReference getReference() {
-        return reference;
-    }
-    public TextView getUserNameTextView() {
-        return userNameTextView;
-    }
-    public NavigationView getNavView() {
-        return navView;
-    }
     public DrawerLayout getDrawer() {
         return drawer;
     }
+
     public void setDrawer(DrawerLayout drawer) {
         this.drawer = drawer;
     }
+
+    public TextView getUserEmailTextView() {
+        return userEmailTextView;
+    }
+
+    public void setUserEmailTextView(TextView userEmailTextView) {
+        this.userEmailTextView = userEmailTextView;
+    }
+
+    public TextView getUserNameTextView() {
+        return userNameTextView;
+    }
+
+    public void setUserNameTextView(TextView userNameTextView) {
+        this.userNameTextView = userNameTextView;
+    }
+
+    public NavigationView getNavView() {
+        return navView;
+    }
+
+    public void setNavView(NavigationView navView) {
+        this.navView = navView;
+    }
+
+    public FirebaseAuth getFirebaseAuth() {
+        return firebaseAuth;
+    }
+
+    public void setFirebaseAuth(FirebaseAuth firebaseAuth) {
+        this.firebaseAuth = firebaseAuth;
+    }
+
     public MenuHandler getMenuHandler() {
         return menuHandler;
     }
+
     public void setMenuHandler(MenuHandler menuHandler) {
         this.menuHandler = menuHandler;
     }

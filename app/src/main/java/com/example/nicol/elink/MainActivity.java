@@ -1,12 +1,9 @@
 package com.example.nicol.elink;
-
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.nicol.elink.Activitys.ActivityAuthentication;
 import com.example.nicol.elink.Activitys.ActivityEmprendedor;
 import com.example.nicol.elink.Activitys.ActivityInversor;
@@ -15,17 +12,13 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
-    private TextView txt1;
-
-    private String returnedUserType; // el valor va a ser retornado por ActivityAuthentication (puede ser "emprendedor" o "inversor")
-
+    private String returnedUserType; // returnedUserType va a ser retornado por ActivityAuthentication (puede ser "emprendedor" o "inversor")
     private final int REQUEST_CODE_AUTH_ACTIVITY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        txt1 = findViewById(R.id.txt1);
         this.openActivityAuthentication();
     }
 
@@ -49,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                         openActivityInversor();
                     }
                 }else {
-                    Toast.makeText(this,"current user = null",Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"current user == null",Toast.LENGTH_LONG).show();
                 }
             }
             if(resultCode == RESULT_CANCELED){

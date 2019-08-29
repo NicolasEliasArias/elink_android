@@ -3,11 +3,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.example.nicol.elink.Activitys.ActivityUser;
 import com.example.nicol.elink.R;
 import com.example.nicol.elink.Fragments.AboutFragment;
-
 import java.util.AbstractMap;
 import java.util.ArrayList;
 

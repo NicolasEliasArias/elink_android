@@ -21,7 +21,6 @@ public class ActualProyectViewHolderBuilder implements ViewHolderBuilder {
         textViewHolder.setContent(textView);
     }
 
-
     @Override
     public void createButtons() {
     }

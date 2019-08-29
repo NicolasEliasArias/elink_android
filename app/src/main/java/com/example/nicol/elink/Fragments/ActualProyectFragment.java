@@ -1,5 +1,4 @@
 package com.example.nicol.elink.Fragments;
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,9 +12,9 @@ import android.widget.TextView;
 import com.example.nicol.elink.Activitys.ActivityEmprendedor;
 import com.example.nicol.elink.Builder.ActualProyectViewHolderBuilder;
 import com.example.nicol.elink.Builder.EditActualProyectViewHolderBuilder;
+import com.example.nicol.elink.DatabaseElinkManager.ElinkProjectsDatabaseManager;
 import com.example.nicol.elink.Director.DirectorViewHolder;
 import com.example.nicol.elink.Proyecto.ProyectoFinanciable;
-import com.example.nicol.elink.FirebaseElinkManager.FirebaseElinkManager;
 import com.example.nicol.elink.R;
 import com.example.nicol.elink.UI.ViewHolder.ViewHolder;
 
@@ -28,6 +27,7 @@ public class ActualProyectFragment extends Fragment {
     private LinearLayout contenidoProyectoLayout;
     private Button btnEdit;
     private Button btnSave;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -93,10 +93,13 @@ public class ActualProyectFragment extends Fragment {
         this.proyecto.getContenido().setDescripcionBreve( vhDescripcion.getText());
         this.proyecto.getContenido().setCuerpo( vhCuerpo.getText());
         prepareProyect();
-        FirebaseElinkManager manager = FirebaseElinkManager.getInstance(context);
-        manager.saveProyect(proyecto);
+        ElinkProjectsDatabaseManager.getInstance(getActivity()).saveProyect(proyecto);
     }
 
+    //Getters y Setters ----------------------------------------------
+    public void setContext(ActivityEmprendedor context) {
+        this.context = context;
+    }
 
     public ProyectoFinanciable getProyecto() {
         return proyecto;
@@ -104,6 +107,62 @@ public class ActualProyectFragment extends Fragment {
 
     public void setProyecto(ProyectoFinanciable proyecto) {
         this.proyecto = proyecto;
+    }
+
+    public View getRootView() {
+        return rootView;
+    }
+
+    public void setRootView(View rootView) {
+        this.rootView = rootView;
+    }
+
+    public ViewHolder getVhTitle() {
+        return vhTitle;
+    }
+
+    public void setVhTitle(ViewHolder vhTitle) {
+        this.vhTitle = vhTitle;
+    }
+
+    public ViewHolder getVhDescripcion() {
+        return vhDescripcion;
+    }
+
+    public void setVhDescripcion(ViewHolder vhDescripcion) {
+        this.vhDescripcion = vhDescripcion;
+    }
+
+    public ViewHolder getVhCuerpo() {
+        return vhCuerpo;
+    }
+
+    public void setVhCuerpo(ViewHolder vhCuerpo) {
+        this.vhCuerpo = vhCuerpo;
+    }
+
+    public LinearLayout getContenidoProyectoLayout() {
+        return contenidoProyectoLayout;
+    }
+
+    public void setContenidoProyectoLayout(LinearLayout contenidoProyectoLayout) {
+        this.contenidoProyectoLayout = contenidoProyectoLayout;
+    }
+
+    public Button getBtnEdit() {
+        return btnEdit;
+    }
+
+    public void setBtnEdit(Button btnEdit) {
+        this.btnEdit = btnEdit;
+    }
+
+    public Button getBtnSave() {
+        return btnSave;
+    }
+
+    public void setBtnSave(Button btnSave) {
+        this.btnSave = btnSave;
     }
 }
 

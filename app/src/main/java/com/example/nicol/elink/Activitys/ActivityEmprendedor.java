@@ -1,19 +1,15 @@
 package com.example.nicol.elink.Activitys;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import com.example.nicol.elink.CallBacks.EmprendedorCallback;
+import com.example.nicol.elink.DatabaseElinkManager.ElinkUserDatabaseManager;
 import com.example.nicol.elink.R;
 import com.example.nicol.elink.Fragments.MyProyectsFragment;
 import com.example.nicol.elink.Usuario.Emprendedor;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class ActivityEmprendedor extends ActivityUser {
 
     private Emprendedor emprendedor;
-    private final ActivityEmprendedor context = this;
-    MyProyectsFragment myProyectsFragment;
+    private MyProyectsFragment myProyectsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,20 +22,12 @@ public class ActivityEmprendedor extends ActivityUser {
     @Override
     public void prepareUser(){
         emprendedor = new Emprendedor();
-        emprendedor.setId(getFirebaseAuth().getCurrentUser().getUid());
-        emprendedor.setEmail(getFirebaseAuth().getCurrentUser().getEmail());
-        this.setReference(FirebaseDatabase.getInstance().getReference("users/emprendedores/" + emprendedor.getId()+ "/nombreUsuario"));
-        this.getReference().addValueEventListener(new ValueEventListener() {
+        ElinkUserDatabaseManager.getInstance(this).getEmprendedor(getFirebaseAuth().getCurrentUser().getUid(), new EmprendedorCallback() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String nombreUsuario = dataSnapshot.getValue(String.class);
-                emprendedor.setNombreUsuario(nombreUsuario);
-                String e = emprendedor.getEmail();
+            public void onCallback(Emprendedor emp) {
+                emprendedor = emp;
                 getUserEmailTextView().setText(emprendedor.getEmail());
                 getUserNameTextView().setText(emprendedor.getNombreUsuario());
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
@@ -48,11 +36,21 @@ public class ActivityEmprendedor extends ActivityUser {
         getMenuHandler().createAndAddItem("Mis Proyectos", R.drawable.ic_myprojects, myProyectsFragment);
     }
 
+    //Getters y Setters ------------------------------------------------
     public Emprendedor getEmprendedor() {
         return emprendedor;
     }
+
     public void setEmprendedor(Emprendedor emprendedor) {
         this.emprendedor = emprendedor;
+    }
+
+    public MyProyectsFragment getMyProyectsFragment() {
+        return myProyectsFragment;
+    }
+
+    public void setMyProyectsFragment(MyProyectsFragment myProyectsFragment) {
+        this.myProyectsFragment = myProyectsFragment;
     }
 }
 

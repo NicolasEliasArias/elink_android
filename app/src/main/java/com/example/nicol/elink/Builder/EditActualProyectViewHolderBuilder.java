@@ -2,7 +2,6 @@ package com.example.nicol.elink.Builder;
 
 import android.app.Activity;
 import android.widget.EditText;
-
 import com.example.nicol.elink.UI.ViewHolder.ViewHolder;
 
 public class EditActualProyectViewHolderBuilder implements ViewHolderBuilder {

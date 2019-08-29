@@ -3,54 +3,36 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import com.example.nicol.elink.CallBacks.Callback;
+import com.example.nicol.elink.DatabaseElinkManager.ElinkUserDatabaseManager;
 import com.example.nicol.elink.R;
-import com.example.nicol.elink.Usuario.Emprendedor;
-import com.example.nicol.elink.Usuario.Inversor;
-import com.example.nicol.elink.Usuario.Usuario;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class ActivityAuthentication extends Activity {
-
-    private FirebaseAuth firebaseAuth;
-    private FirebaseDatabase database;
-    private DatabaseReference databaseRef;
 
     private EditText emailEditText;
     private EditText passwordEditText;
     private ProgressDialog progressDialog;
     private Button buttonIniciarSesion;
     private Button buttonRegistrarse;
-
     private RadioGroup grupoEmprendedorInversor;
     private RadioButton buttonEmprendedor;
     private RadioButton buttonInversor;
     private RadioButton buttonChecked;
-
     private String userType;
+    private ElinkUserDatabaseManager userManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+        userManager = ElinkUserDatabaseManager.getInstance(this);
 
         grupoEmprendedorInversor = findViewById(R.id.radiogroup_emprendedorinversor);
         buttonEmprendedor = findViewById(R.id.button_emprendedor);
@@ -73,74 +55,70 @@ public class ActivityAuthentication extends Activity {
         buttonChecked = findViewById(radioButtonID);
         if(this.validarEmailPassword(email,password)){
             if(v == buttonRegistrarse){
-                //inicio de sesion
                 registrarse(email,password);
             }else{
-                //registro
                 iniciarSesion(email,password);
             }
         }
+    }
+
+    private void iniciarSesion(String email, String password){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Iniciando Sesion, por favor espere...");
+        progressDialog.show();
+        userManager.logIn(email, password, new Callback() {
+            @Override
+            public void onCallback() {
+                Toast.makeText(ActivityAuthentication.this, "Logueado exitosamente", Toast.LENGTH_SHORT).show();
+                if(buttonEmprendedor.getId() == grupoEmprendedorInversor.getCheckedRadioButtonId()){
+                    userType = getResources().getString(R.string.TIPOEMPRENDEDOR);
+                }else if(buttonInversor.getId() == grupoEmprendedorInversor.getCheckedRadioButtonId()){
+                    userType = getResources().getString(R.string.TIPOINVERSOR);
+                }
+                finishAuth();
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onCallbackFailed() {
+                Toast.makeText(ActivityAuthentication.this, "No se pudo loguear :(", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
     }
 
     private void registrarse(final String email, final String password){
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Registrando, por favor espere...");
         progressDialog.show();
-        firebaseAuth.createUserWithEmailAndPassword(email,password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            //usuario se registro exitosamente
-                            if(buttonEmprendedor.getId() == grupoEmprendedorInversor.getCheckedRadioButtonId()){
-                                registrarEmprendedor(email,password);
-                            }else if(buttonInversor.getId() == grupoEmprendedorInversor.getCheckedRadioButtonId()){
-                                registrarInversor(email,password);
-                            }
-                            finishAuth();
-                        }else{
-                            //usuario no pudo registrarse
-                            Toast.makeText(ActivityAuthentication.this, "No se pudo registrar :(", Toast.LENGTH_SHORT).show();
-                        }
-                        progressDialog.dismiss();
-                    }
-                });
-    }
-    private void iniciarSesion(String email, String password){
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Iniciando Sesion, por favor espere...");
-        progressDialog.show();
-        firebaseAuth.signInWithEmailAndPassword(email,password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(ActivityAuthentication.this, "Logueado exitosamente", Toast.LENGTH_SHORT).show();
-                            finishAuth();
-                        }else{
-                            Toast.makeText(ActivityAuthentication.this, "No se pudo loguear :(", Toast.LENGTH_SHORT).show();
-                        }
-                        progressDialog.dismiss();
-                    }
-                });
+        userManager.registerUser(email, password, new Callback() {
+            @Override
+            public void onCallback() {
+                if(buttonEmprendedor.getId() == grupoEmprendedorInversor.getCheckedRadioButtonId()){
+                    registrarEmprendedor(email);
+                }else if(buttonInversor.getId() == grupoEmprendedorInversor.getCheckedRadioButtonId()){
+                    registrarInversor(email);
+                }
+                progressDialog.dismiss();
+                finishAuth();
+            }
+
+            @Override
+            public void onCallbackFailed() {
+                Toast.makeText(ActivityAuthentication.this, "No se pudo registrar :(", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
     }
 
-    private void registrarInversor(String email,String password){
-        FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        String userid = "" + currentFirebaseUser.getUid();
-        Usuario inversorNuevo = new Inversor(userid,"Pepe",email);
-        databaseRef = database.getReference("users/inversores/" + userid);
-        databaseRef.setValue(inversorNuevo);
-        userType = getResources().getString(R.string.TIPOINVERSOR);
-    }
-
-    private void registrarEmprendedor(String email,String password){
-        FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        String userid = "" + currentFirebaseUser.getUid();
-        Usuario emprendedorNuevo = new Emprendedor(userid,"Mauro", email);
-        databaseRef = database.getReference("users/emprendedores/" + userid);
-        databaseRef.setValue(emprendedorNuevo);
+    private void registrarEmprendedor(String  email){
+        userManager.registerNewEmprendedor(email);
         userType = getResources().getString(R.string.TIPOEMPRENDEDOR);
+    }
+
+    private void registrarInversor(String email){
+        userManager.registerNewInvestor(email);
+        userType = getResources().getString(R.string.TIPOINVERSOR);
     }
 
     private boolean validarEmailPassword(String email, String password){
@@ -165,31 +143,7 @@ public class ActivityAuthentication extends Activity {
         finish();
     }
 
-
-    //Getters y Setters
-    public FirebaseAuth getFirebaseAuth() {
-        return firebaseAuth;
-    }
-
-    public void setFirebaseAuth(FirebaseAuth firebaseAuth) {
-        this.firebaseAuth = firebaseAuth;
-    }
-
-    public FirebaseDatabase getDatabase() {
-        return database;
-    }
-
-    public void setDatabase(FirebaseDatabase database) {
-        this.database = database;
-    }
-
-    public DatabaseReference getDatabaseRef() {
-        return databaseRef;
-    }
-
-    public void setDatabaseRef(DatabaseReference databaseRef) {
-        this.databaseRef = databaseRef;
-    }
+    //Getters y Setters------------------------------------------------
 
     public EditText getEmailEditText() {
         return emailEditText;
@@ -269,5 +223,13 @@ public class ActivityAuthentication extends Activity {
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public ElinkUserDatabaseManager getUserManager() {
+        return userManager;
+    }
+
+    public void setUserManager(ElinkUserDatabaseManager userManager) {
+        this.userManager = userManager;
     }
 }

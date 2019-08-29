@@ -1,7 +1,5 @@
 package com.example.nicol.elink.UI.ViewHolder;
-
 import android.app.Activity;
-
 import com.example.nicol.elink.Proyecto.ProyectoFinanciable;
 
 public class ProyectTextViewHolder extends ViewHolder {

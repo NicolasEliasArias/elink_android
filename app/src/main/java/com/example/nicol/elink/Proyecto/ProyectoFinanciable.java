@@ -1,11 +1,5 @@
 package com.example.nicol.elink.Proyecto;
 
-import com.example.nicol.elink.Novedades.Novedades;
-import com.example.nicol.elink.Novedades.NovedadesProyecto;
-import com.example.nicol.elink.State.StateProyecto;
-//import com.example.nicol.elink.State.StateProyectoCreado;
-import com.example.nicol.elink.Usuario.Emprendedor;
-
 public class ProyectoFinanciable extends Proyecto {
 
 //    private StateProyecto estadoActual;

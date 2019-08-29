@@ -17,4 +17,6 @@ public abstract class StateProyecto implements State {
     public String getNombreEstado() {
         return nombreEstado;
     }
+
+
 }
