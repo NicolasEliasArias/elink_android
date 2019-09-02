@@ -3,7 +3,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +20,6 @@ public class ActivityAuthentication extends Activity {
 
     private EditText emailEditText;
     private EditText passwordEditText;
-    private ProgressDialog progressDialog;
     private Button buttonIniciarSesion;
     private Button buttonRegistrarse;
     private RadioGroup grupoEmprendedorInversor;
@@ -47,7 +48,10 @@ public class ActivityAuthentication extends Activity {
         buttonRegistrarse = findViewById(R.id.button_registrarse);
     }
 
-
+    /**
+     * Inicia sesion o registra al usuario con los datos almacenados en los inputs
+     * @param v
+     */
     public void onAuthButtonClicked(View v){
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
@@ -62,33 +66,44 @@ public class ActivityAuthentication extends Activity {
         }
     }
 
-    private void iniciarSesion(String email, String password){
-        progressDialog = new ProgressDialog(this);
+    /**
+     * inicia sesion con los datos correspondientes del usuario
+     * @param email email del usuario
+     * @param password contraseña del usuario
+     */
+    public void iniciarSesion(String email, String password){
+        final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Iniciando Sesion, por favor espere...");
         progressDialog.show();
-        userManager.logIn(email, password, new Callback() {
+        if(buttonEmprendedor.getId() == grupoEmprendedorInversor.getCheckedRadioButtonId()){
+            userType = getResources().getString(R.string.TIPOEMPRENDEDOR);
+        }else if(buttonInversor.getId() == grupoEmprendedorInversor.getCheckedRadioButtonId()){
+            userType = getResources().getString(R.string.TIPOINVERSOR);
+        }
+        Callback newCallback = new Callback() {
             @Override
             public void onCallback() {
                 Toast.makeText(ActivityAuthentication.this, "Logueado exitosamente", Toast.LENGTH_SHORT).show();
-                if(buttonEmprendedor.getId() == grupoEmprendedorInversor.getCheckedRadioButtonId()){
-                    userType = getResources().getString(R.string.TIPOEMPRENDEDOR);
-                }else if(buttonInversor.getId() == grupoEmprendedorInversor.getCheckedRadioButtonId()){
-                    userType = getResources().getString(R.string.TIPOINVERSOR);
-                }
-                finishAuth();
                 progressDialog.dismiss();
+                finishAuth();
             }
 
             @Override
-            public void onCallbackFailed() {
-                Toast.makeText(ActivityAuthentication.this, "No se pudo loguear :(", Toast.LENGTH_SHORT).show();
+            public void onCallbackFailed(String errorMessage) {
+                Toast.makeText(ActivityAuthentication.this, "No se pudo loguear :(" + errorMessage, Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
-        });
+        };
+        userManager.logIn(email, password, newCallback, userType);
     }
 
-    private void registrarse(final String email, final String password){
-        progressDialog = new ProgressDialog(this);
+    /**
+     * registra al usuario con los datos correspondientes
+     * @param email email del usuario
+     * @param password contraseña del usuario
+     */
+    public void registrarse(final String email, final String password){
+        final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Registrando, por favor espere...");
         progressDialog.show();
         userManager.registerUser(email, password, new Callback() {
@@ -104,23 +119,37 @@ public class ActivityAuthentication extends Activity {
             }
 
             @Override
-            public void onCallbackFailed() {
-                Toast.makeText(ActivityAuthentication.this, "No se pudo registrar :(", Toast.LENGTH_SHORT).show();
+            public void onCallbackFailed(String errorMessage) {
+                Toast.makeText(ActivityAuthentication.this, "No se pudo registrar :(" + errorMessage, Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
     }
 
+    /**
+     * Almacena un nuevo emprendedor en la base de datos
+     * @param email
+     */
     private void registrarEmprendedor(String  email){
         userManager.registerNewEmprendedor(email);
         userType = getResources().getString(R.string.TIPOEMPRENDEDOR);
     }
 
+    /**
+     * Almacena un nuevo inversor en la base de datos
+     * @param email
+     */
     private void registrarInversor(String email){
         userManager.registerNewInvestor(email);
         userType = getResources().getString(R.string.TIPOINVERSOR);
     }
 
+    /**
+     * Retorna true si el email y la contraseña son validas. Retorna false en caso contrario
+     * @param email email ingresado
+     * @param password contraseña ingresada
+     * @return
+     */
     private boolean validarEmailPassword(String email, String password){
         boolean valido = true;
         if(TextUtils.isEmpty(email)){
@@ -136,6 +165,9 @@ public class ActivityAuthentication extends Activity {
         return valido;
     }
 
+    /**
+     * Finaliza la actividad retornando a la Actividad anterior el tipo de usuario que inicia sesion
+     */
     public void finishAuth(){
         Intent resultIntent = new Intent();
         resultIntent.putExtra(getResources().getString(R.string.RESULT_USERTYPE), userType);
@@ -159,14 +191,6 @@ public class ActivityAuthentication extends Activity {
 
     public void setPasswordEditText(EditText passwordEditText) {
         this.passwordEditText = passwordEditText;
-    }
-
-    public ProgressDialog getProgressDialog() {
-        return progressDialog;
-    }
-
-    public void setProgressDialog(ProgressDialog progressDialog) {
-        this.progressDialog = progressDialog;
     }
 
     public Button getButtonIniciarSesion() {

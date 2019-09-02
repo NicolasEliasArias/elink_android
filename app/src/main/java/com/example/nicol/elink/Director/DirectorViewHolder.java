@@ -1,30 +1,31 @@
 package com.example.nicol.elink.Director;
 
 import android.app.Activity;
-import com.example.nicol.elink.Builder.ViewHolderBuilder;
+import com.example.nicol.elink.Builder.IViewHolderBuilder;
 import com.example.nicol.elink.UI.ViewHolder.ViewHolder;
 
 public class DirectorViewHolder {
 
-    private ViewHolderBuilder pvhBuilder;
+    private IViewHolderBuilder vhBuilder;
 
     public DirectorViewHolder(){}
-    public DirectorViewHolder(ViewHolderBuilder pvhBuilder){
-        this.pvhBuilder = pvhBuilder;
+    public DirectorViewHolder(IViewHolderBuilder pvhBuilder){
+        this.vhBuilder = pvhBuilder;
     }
 
     public ViewHolder createViewHolder(Activity context, String text){
-        pvhBuilder.createViewHolder(context);
-        pvhBuilder.createButtons();
-        pvhBuilder.createText(text);
-        return pvhBuilder.getViewHolder();
+        vhBuilder.createViewHolder(context);
+        vhBuilder.createButtons();
+        vhBuilder.createText(text);
+        return vhBuilder.getViewHolder();
     }
 
-    public ViewHolderBuilder getBuilder() {
-        return pvhBuilder;
+    //Getters y Setters ----------------------------------------------------
+    public IViewHolderBuilder getBuilder() {
+        return vhBuilder;
     }
 
-    public void setBuilder(ViewHolderBuilder pvhBuilder) {
-        this.pvhBuilder = pvhBuilder;
+    public void setBuilder(IViewHolderBuilder pvhBuilder) {
+        this.vhBuilder = pvhBuilder;
     }
 }

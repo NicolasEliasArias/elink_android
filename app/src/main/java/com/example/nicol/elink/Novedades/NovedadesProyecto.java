@@ -13,8 +13,17 @@ public class NovedadesProyecto extends Novedades {
     @Override
     public void nuevaNoticia(String noticia) {
         String titulo = this.proyecto.getContenido().getTitulo();
-        this.ultimaNoticia = titulo + " " + noticia;
-        this.noticias.add(ultimaNoticia);
+        this.setUltimaNoticia(titulo + " " + noticia);
+        this.getNoticias().add(getUltimaNoticia());
         this.notificar();
+    }
+
+    //Getters y setters -------------------------------
+    public ProyectoFinanciable getProyecto() {
+        return proyecto;
+    }
+
+    public void setProyecto(ProyectoFinanciable proyecto) {
+        this.proyecto = proyecto;
     }
 }

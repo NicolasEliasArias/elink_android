@@ -2,23 +2,31 @@ package com.example.nicol.elink.Fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.nicol.elink.Activitys.ActivityEmprendedor;
-import com.example.nicol.elink.Activitys.ActivityInversor;
-import com.example.nicol.elink.R;
+import com.example.nicol.elink.Builder.InversorProjectViewHolderBuilder;
+import com.example.nicol.elink.CallBacks.FirebaseCallback;
+import com.example.nicol.elink.DatabaseElinkManager.ElinkProjectsDatabaseManager;
+import com.example.nicol.elink.Proyecto.ProyectoFinanciable;
+import java.util.ArrayList;
 
-public class AllProjectsFragment extends Fragment {
+public class AllProjectsFragment extends ProjectsFragment {
 
-    private View rootview;
-    private ActivityInversor context;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootview = inflater.inflate(R.layout.all_proyects_fragment, container,false);
-        context = (ActivityInversor) getActivity();
-        return rootview;
+        setRootview(super.onCreateView(inflater,container,savedInstanceState));
+        return getRootview();
+    }
+
+    @Override
+    protected void prepareProyects(){
+        ElinkProjectsDatabaseManager.getInstance(getActivity()).getAllProyects(new FirebaseCallback() {
+            @Override
+            public void onCallback(ArrayList<ProyectoFinanciable> proyectos) {
+                displayProjects(proyectos, new InversorProjectViewHolderBuilder());
+            }
+        });
     }
 }

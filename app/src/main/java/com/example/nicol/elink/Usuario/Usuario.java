@@ -15,21 +15,29 @@ public abstract class Usuario {
         this.email = email;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public String getId() {
-        return id;
-    }
+    //Getters y Setters -------------------------------------------------------
     public String getNombreUsuario() {
         return nombreUsuario;
     }
-    public String getEmail() {return email; }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
 

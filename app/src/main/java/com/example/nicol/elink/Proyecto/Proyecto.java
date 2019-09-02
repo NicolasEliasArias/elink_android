@@ -1,15 +1,16 @@
 package com.example.nicol.elink.Proyecto;
-
+import com.example.nicol.elink.Proyecto.ContenidoProyecto.Contenido;
 import com.example.nicol.elink.Proyecto.ContenidoProyecto.ContenidoProyecto;
-import com.example.nicol.elink.Usuario.Emprendedor;
 
 public abstract class Proyecto {
 
     private  String emprendedorId;
-    protected long id;
-    protected ContenidoProyecto contenido;
+    private long id;
+    private Contenido contenido;
 
-    public Proyecto(){}
+    public Proyecto(){
+        this.contenido = new ContenidoProyecto("<Titulo>","<descripcion>","<cuerpo>");
+    }
 
     public Proyecto(long id, String emprendedorId){
         this.id = id;
@@ -17,24 +18,28 @@ public abstract class Proyecto {
         this.contenido = new ContenidoProyecto("<Titulo>","<descripcion>","<cuerpo>");
     }
 
-    //Setters y getters
-
-    public void setContenido(ContenidoProyecto contenido) {
-        this.contenido = contenido;
-    }
-    public void setId(long id) {
-        this.id = id;
-    }
-    public ContenidoProyecto getContenido() {
-        return contenido;
-    }
-    public long getId() {
-        return id;
-    }
+    //Getters y Setters ---------------------------------------
     public String getEmprendedorId() {
         return emprendedorId;
     }
+
     public void setEmprendedorId(String emprendedorId) {
         this.emprendedorId = emprendedorId;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Contenido getContenido() {
+        return contenido;
+    }
+
+    public void setContenido(Contenido contenido) {
+        this.contenido = contenido;
     }
 }

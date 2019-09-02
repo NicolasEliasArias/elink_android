@@ -1,7 +1,5 @@
 package com.example.nicol.elink.Usuario;
 import com.example.nicol.elink.Proyecto.Proyecto;
-import com.example.nicol.elink.Proyecto.ProyectoFinanciable;
-
 import java.util.ArrayList;
 
 public class Emprendedor extends Usuario {
@@ -15,19 +13,21 @@ public class Emprendedor extends Usuario {
         this.proyectos = new ArrayList<Proyecto>();
     }
 
-
-//    public void asignarProyecto(ProyectoFinanciable proyecto){
-//        this.proyectos.add(proyecto);
-//        proyecto.setEmprendedor(this);
-//    }
-    public void asignarProyecto(ProyectoFinanciable proyectoFinanciable){
-        this.proyectos.add(proyectoFinanciable);
-        proyectoFinanciable.setEmprendedorId(getId());
+    /**
+     * se le asigna un proyecto al inversor y al proyecto se le añade la id del emprendedor
+     * @param proyecto
+     */
+    public void asignarProyecto(Proyecto proyecto){
+        this.proyectos.add(proyecto);
+        proyecto.setEmprendedorId(getId());
     }
 
-//    public ProyectoFinanciable crearProyectoFinanciable(int id, double financiacionNecesaria){
-//        ProyectoFinanciable proyecto = new ProyectoFinanciable(id,this);
-//        proyecto.setFinanciacionNecesaria(financiacionNecesaria);
-//        return proyecto;
-//    }
+    //Getters y Setters ---------------------------------------------
+    public ArrayList<Proyecto> getProyectos() {
+        return proyectos;
+    }
+
+    public void setProyectos(ArrayList<Proyecto> proyectos) {
+        this.proyectos = proyectos;
+    }
 }

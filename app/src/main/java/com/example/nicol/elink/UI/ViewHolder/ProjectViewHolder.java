@@ -2,18 +2,18 @@ package com.example.nicol.elink.UI.ViewHolder;
 import android.app.Activity;
 import com.example.nicol.elink.Proyecto.ProyectoFinanciable;
 
-public class ProyectTextViewHolder extends ViewHolder {
+public class ProjectViewHolder extends ViewHolder {
     private ProyectoFinanciable proyectoFinanciable;
-    public ProyectTextViewHolder(Activity context) {
+    public ProjectViewHolder(Activity context) {
         super(context);
     }
 
-    public ProyectTextViewHolder(Activity context, ProyectoFinanciable proyecto){
+    public ProjectViewHolder(Activity context, ProyectoFinanciable proyecto){
         super(context);
         proyectoFinanciable = proyecto;
     }
 
-
+    //Getters y Setters -----------------------------------------------------
     public ProyectoFinanciable getProyectoFinanciable() {
         return proyectoFinanciable;
     }

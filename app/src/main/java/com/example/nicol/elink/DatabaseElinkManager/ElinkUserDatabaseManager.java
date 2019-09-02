@@ -1,12 +1,16 @@
 package com.example.nicol.elink.DatabaseElinkManager;
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.example.nicol.elink.CallBacks.Callback;
 import com.example.nicol.elink.CallBacks.EmprendedorCallback;
 import com.example.nicol.elink.CallBacks.InversorCallback;
 import com.example.nicol.elink.Factory.FactoryEmprendedor;
 import com.example.nicol.elink.Factory.FactoryInversor;
 import com.example.nicol.elink.Factory.FactoryUser;
+import com.example.nicol.elink.R;
 import com.example.nicol.elink.Usuario.Emprendedor;
 import com.example.nicol.elink.Usuario.Inversor;
 import com.example.nicol.elink.Usuario.Usuario;
@@ -32,6 +36,7 @@ public class ElinkUserDatabaseManager implements AuthManager,EmprendedoresInvers
         database = FirebaseDatabase.getInstance();
     }
 
+
     @Override
     public void logIn(String email, String password,final Callback callback) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -42,11 +47,66 @@ public class ElinkUserDatabaseManager implements AuthManager,EmprendedoresInvers
                         if(task.isSuccessful()){
                             callback.onCallback();
                         }else{
-                            callback.onCallbackFailed();
+                            callback.onCallbackFailed(task.getException().getMessage());
                         }
                     }
                 });
     }
+
+
+    /**
+     * Intenta iniciar sesion chequeando el tipo de usuario seleccionado, si el email corresponde con un usuario del tipo correcto en la base de datos entonces inicia sesion normalmente.
+     * @param email email del usuario que quiere iniciar sesion
+     * @param password contraseña del usuario que quiere iniciar sesion
+     * @param callback metodos (objeto que lo contiene) a ejecutar una vez iniciada la sesion o finalizada por otro motivo
+     * @param userType tipo del usuario que inicia sesion
+     */
+    public void logIn(String email, String password, final Callback callback, final String userType){
+        logIn(email, password, new Callback() {//Logeamos con FirebaseAuth (metodo arriba de este)
+            @Override
+            public void onCallback() { //Pasamos este callback para que se ejecute ni bien termine de loguear con FirebaseAuth
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                if(userType.equals(getContext().getResources().getString(R.string.TIPOEMPRENDEDOR))){//Si se esta tratando de loguear como emprendedor ...
+                    getEmprendedor(firebaseAuth.getCurrentUser().getUid(), new EmprendedorCallback() {
+                        @Override
+                        public void onCallback(Emprendedor emprendedor) {
+                            if(emprendedor == null){
+                                callback.onCallbackFailed(" No existe ese emprendedor");
+                            }else{
+                                callback.onCallback();
+                            }
+                        }
+                        @Override
+                        public void onCallbackFailed(String errorMessage) {
+                            callback.onCallbackFailed(errorMessage);
+                        }
+                    });
+                }else
+                    if(userType.equals(getContext().getResources().getString(R.string.TIPOINVERSOR))){//Si se esta tratando de loguear como inversor ...
+                        getInversor(firebaseAuth.getCurrentUser().getUid(), new InversorCallback() {
+                            @Override
+                            public void onCallback(Inversor inversor) {
+                                if(inversor == null){
+                                    callback.onCallbackFailed(" No existe ese inversor");
+                                }else{
+                                    callback.onCallback();
+                                }
+                            }
+                            @Override
+                            public void onCallbackFailed(String errorMessage) {
+                                callback.onCallbackFailed(errorMessage);
+                            }
+                        });
+                    }
+            }
+            @Override
+            public void onCallbackFailed(String errorMessage) {
+                callback.onCallbackFailed(errorMessage);
+            }
+        });
+
+    }
+
 
     @Override
     public void registerUser(String email, String password,final Callback callback) {
@@ -58,7 +118,7 @@ public class ElinkUserDatabaseManager implements AuthManager,EmprendedoresInvers
                         if(task.isSuccessful()){
                             callback.onCallback();
                         }else{
-                            callback.onCallbackFailed();
+                            callback.onCallbackFailed(task.getException().getMessage());
                         }
                     }
                 });
@@ -89,19 +149,25 @@ public class ElinkUserDatabaseManager implements AuthManager,EmprendedoresInvers
         FactoryUser factory = new FactoryEmprendedor();
         final Emprendedor emprendedor = (Emprendedor) factory.createUser();//Se que no tiene mucho sentido pero por lo menos esondo la logica
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users/emprendedores/" + id);
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String nombreUsuario = dataSnapshot.child("nombreUsuario").getValue(String.class);
-                String email = dataSnapshot.child("email").getValue(String.class);
-                String id = dataSnapshot.child("id").getValue(String.class);
-                emprendedor.setNombreUsuario(nombreUsuario);
-                emprendedor.setId(id);
-                emprendedor.setEmail(email);
-                emprendedorCallback.onCallback(emprendedor);
+                if(dataSnapshot.getValue() == null){
+                    emprendedorCallback.onCallback(null);
+                }
+                else{
+                    String nombreUsuario = dataSnapshot.child("nombreUsuario").getValue(String.class);
+                    String email = dataSnapshot.child("email").getValue(String.class);
+                    String id = dataSnapshot.child("id").getValue(String.class);
+                    emprendedor.setNombreUsuario(nombreUsuario);
+                    emprendedor.setId(id);
+                    emprendedor.setEmail(email);
+                    emprendedorCallback.onCallback(emprendedor);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                emprendedorCallback.onCallback(null);
             }
         });
     }
@@ -111,21 +177,27 @@ public class ElinkUserDatabaseManager implements AuthManager,EmprendedoresInvers
         FactoryUser factory = new FactoryInversor();
         final Inversor inversor = (Inversor) factory.createUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users/inversores/" + id);
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String nombreUsuario = dataSnapshot.child("nombreUsuario").getValue(String.class);
-                String email = dataSnapshot.child("email").getValue(String.class);
-                String id = dataSnapshot.child("id").getValue(String.class);
-                int dinero = dataSnapshot.child("dinero").getValue(Integer.class);
-                inversor.setNombreUsuario(nombreUsuario);
-                inversor.setId(id);
-                inversor.setEmail(email);
-                inversor.setDinero(dinero);
-                inversorCallback.onCallback(inversor);
+                if(dataSnapshot.getValue() == null){
+                    inversorCallback.onCallback(null);
+                }else{
+                    String nombreUsuario = dataSnapshot.child("nombreUsuario").getValue(String.class);
+                    String email = dataSnapshot.child("email").getValue(String.class);
+                    String id = dataSnapshot.child("id").getValue(String.class);
+                    int dinero = dataSnapshot.child("dinero").getValue(Integer.class);
+                    inversor.setNombreUsuario(nombreUsuario);
+                    inversor.setId(id);
+                    inversor.setEmail(email);
+                    inversor.setDinero(dinero);
+                    inversorCallback.onCallback(inversor);
+                }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                inversorCallback.onCallback(null);
             }
         });
     }

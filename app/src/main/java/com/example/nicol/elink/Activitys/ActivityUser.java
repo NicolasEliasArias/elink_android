@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 import com.example.nicol.elink.R;
 import com.example.nicol.elink.Fragments.AboutFragment;
 import com.example.nicol.elink.UI.MenuHandler.MenuHandler;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.nicol.elink.Usuario.Usuario;
 
 public abstract class ActivityUser extends AppCompatActivity{
 
@@ -19,13 +19,12 @@ public abstract class ActivityUser extends AppCompatActivity{
     private TextView userEmailTextView;
     private TextView userNameTextView;
     private NavigationView navView;
-    private FirebaseAuth firebaseAuth;
     private MenuHandler menuHandler;
+    private Usuario user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        firebaseAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_user);
         navView = findViewById(R.id.nav_view);
         prepareDrawer();
@@ -46,7 +45,10 @@ public abstract class ActivityUser extends AppCompatActivity{
         }
     }
 
-    public void prepareDrawer(){
+    /**
+     * Prepara el drawer de la aplicacion
+     */
+    protected void prepareDrawer(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout);
@@ -55,19 +57,40 @@ public abstract class ActivityUser extends AppCompatActivity{
         toggle.syncState();
     }
 
-    public void prepareHeader(){
+    /**
+     * Prepara el header de la aplicacion
+     */
+    protected void prepareHeader(){
         userEmailTextView = navView.getHeaderView(0).findViewById(R.id.text_view_user_email);
         userNameTextView = navView.getHeaderView(0).findViewById(R.id.text_view_user_name);
     }
 
-    public void prepareMenu(){
+    /**
+     * prepara el menu de la aplicacion
+     */
+    protected void prepareMenu(){
         menuHandler = new MenuHandler(this);
     }
 
-    public abstract void prepareUser();
+    /**
+     * prepara el usuario que inicio sesion y todos los datos necesarios
+     */
+    protected abstract void prepareUser();
 
+    /**
+     *Prepara todos los items del menu necesarios para el usuario correspondiente
+     */
+    protected abstract void prepareMenuItemSections();
 
     //Getters y Setters-----------------------------------------
+    public Usuario getUser() {
+        return user;
+    }
+
+    public void setUser(Usuario user) {
+        this.user = user;
+    }
+
     public DrawerLayout getDrawer() {
         return drawer;
     }
@@ -100,14 +123,6 @@ public abstract class ActivityUser extends AppCompatActivity{
         this.navView = navView;
     }
 
-    public FirebaseAuth getFirebaseAuth() {
-        return firebaseAuth;
-    }
-
-    public void setFirebaseAuth(FirebaseAuth firebaseAuth) {
-        this.firebaseAuth = firebaseAuth;
-    }
-
     public MenuHandler getMenuHandler() {
         return menuHandler;
     }
@@ -115,4 +130,5 @@ public abstract class ActivityUser extends AppCompatActivity{
     public void setMenuHandler(MenuHandler menuHandler) {
         this.menuHandler = menuHandler;
     }
+
 }

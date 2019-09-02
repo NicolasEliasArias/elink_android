@@ -23,6 +23,12 @@ public class MenuHandler {
         setStaticItemsListeners();
     }
 
+    /**
+     * Creea un item nuevo y lo agrega al menu
+     * @param title Titulo del item nuevo
+     * @param iconId Icono del item nuevo
+     * @param fragment fragment que abrira una vez clickeado el item
+     */
     public void createAndAddItem(String title, int iconId , final Fragment fragment){
         int newItemId = items.size();
         MenuItem newItem = menu.add(R.id.menu_group_dynamic, newItemId,0, title).setIcon(iconId);
@@ -36,6 +42,9 @@ public class MenuHandler {
         });
     }
 
+    /**
+     * Prepara los items en comun que tendran todos los usuarios (sin importar si son inversores o emprendedores)
+     */
     private void setStaticItemsListeners(){
         context.getNavView().getMenu().getItem(ABOUTITEM).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override

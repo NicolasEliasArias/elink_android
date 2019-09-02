@@ -4,4 +4,5 @@ import com.example.nicol.elink.Usuario.Emprendedor;
 
 public interface EmprendedorCallback {
     void onCallback(Emprendedor emprendedor);
+    void onCallbackFailed(String errorMessage);
 }

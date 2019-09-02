@@ -7,16 +7,20 @@ public abstract class StateProyecto implements State {
     protected ProyectoFinanciable proyecto;
     protected String nombreEstado;
 
-    public StateProyecto(ProyectoFinanciable p){
-        this.proyecto = p;
+    public StateProyecto(ProyectoFinanciable proyecto){
+        this.proyecto = proyecto;
     }
 
     public abstract String financiar(int monto);
+
     public abstract void finalizarProyecto();
 
+    //Getters y Setters------------------------------------------
     public String getNombreEstado() {
         return nombreEstado;
     }
 
-
+    public void setNombreEstado(String nombreEstado) {
+        this.nombreEstado = nombreEstado;
+    }
 }

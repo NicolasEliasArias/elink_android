@@ -4,8 +4,8 @@ import com.example.nicol.elink.Proyecto.ProyectoFinanciable;
 import com.example.nicol.elink.Usuario.Emprendedor;
 
 public interface ProjectsDatabaseManager {
-    public void getAllProyects();
+    public void getAllProyects(final FirebaseCallback callback);
     public void saveProyect(final ProyectoFinanciable proyectoFinanciable);
-    public ProyectoFinanciable createNewProyect(final Emprendedor emprendedor );
-    public void getEmprendedorProyects(final Emprendedor emprendedor,final FirebaseCallback firebaseCallback);
+    public ProyectoFinanciable createNewProyect(final String emprendedor );
+    public void getEmprendedorProyects(final String emprendedor,final FirebaseCallback firebaseCallback);
 }

@@ -22,5 +22,8 @@
     <string name="proyectos">proyectos</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
+    <string name="financiacionNecesaria">Financiacion Necesaria: </string>
+    <string name="financiacionActual">Financiacion Actual: </string>
+
 
 </resources>
