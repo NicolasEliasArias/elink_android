@@ -11,6 +11,7 @@ public class ActivityInversor extends ActivityUser {
 
     private AllProjectsFragment allProjectsFragment;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         allProjectsFragment = new AllProjectsFragment();

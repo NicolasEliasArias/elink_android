@@ -11,7 +11,7 @@ public abstract class StateProyecto implements State {
         this.proyecto = proyecto;
     }
 
-    public abstract String financiar(int monto);
+    public abstract String financiar(double monto);
 
     public abstract void finalizarProyecto();
 

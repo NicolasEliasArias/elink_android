@@ -28,10 +28,8 @@ public class MyProjectViewHolderBuilder extends ProjectViewHolderBuilder{
                 Log.d("TTT", "Boton Ver presionado");
                 ActivityEmprendedor act = (ActivityEmprendedor) getViewHolder().getContext();
                 ActualProyectFragment fragment = new ActualProyectFragment();
-
                 fragment.setProyecto(getViewHolder().getProyectoFinanciable());
                 act.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commitNow();
-//                fragment.prepareProyect();
                 act.getDrawer().closeDrawer(GravityCompat.START);
 
             }

@@ -7,7 +7,7 @@ public interface  State {
      * @param monto
      * @return
      */
-    public String financiar(int monto);
+    public String financiar(double monto);
 
     /**
      * Finaliza el proyecto

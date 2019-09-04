@@ -10,7 +10,7 @@ public class StateProyectoCancelado extends StateProyecto {
     }
 
     @Override
-    public String financiar(int monto) {
+    public String financiar(double monto) {
         return "El proyecto ah sido cancelado, no es posible financiar";
     }
 

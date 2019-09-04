@@ -13,7 +13,7 @@ public class StateProyectoCreado extends StateProyecto {
     }
 
     @Override
-    public String financiar(int monto) {
+    public String financiar(double monto) {
         this.proyecto.setFinanciacionActual(this.proyecto.getFinanciacionActual() + monto);
         if((this.proyecto.getFinanciacionActual() >= this.proyecto.getFinanciacionNecesaria())){
             this.proyecto.setEstadoActual(new StateProyectoFinanciado(this.proyecto));

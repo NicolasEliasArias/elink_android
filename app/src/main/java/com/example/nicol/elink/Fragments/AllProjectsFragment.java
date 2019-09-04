@@ -9,6 +9,8 @@ import com.example.nicol.elink.Builder.InversorProjectViewHolderBuilder;
 import com.example.nicol.elink.CallBacks.FirebaseCallback;
 import com.example.nicol.elink.DatabaseElinkManager.ElinkProjectsDatabaseManager;
 import com.example.nicol.elink.Proyecto.ProyectoFinanciable;
+import com.example.nicol.elink.Usuario.Inversor;
+
 import java.util.ArrayList;
 
 public class AllProjectsFragment extends ProjectsFragment {
@@ -25,7 +27,7 @@ public class AllProjectsFragment extends ProjectsFragment {
         ElinkProjectsDatabaseManager.getInstance(getActivity()).getAllProyects(new FirebaseCallback() {
             @Override
             public void onCallback(ArrayList<ProyectoFinanciable> proyectos) {
-                displayProjects(proyectos, new InversorProjectViewHolderBuilder());
+                displayProjects(proyectos, new InversorProjectViewHolderBuilder((Inversor) getActivityUser().getUser()));
             }
         });
     }

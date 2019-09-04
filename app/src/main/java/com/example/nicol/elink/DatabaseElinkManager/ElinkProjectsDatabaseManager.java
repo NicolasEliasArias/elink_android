@@ -79,6 +79,11 @@ public class ElinkProjectsDatabaseManager implements  ProjectsDatabaseManager {
         this.sendProyect(proyectoFinanciable,refProyects);
     }
 
+    /**
+     * Guarda un proyecto en una referencia de una base de datos dada
+     * @param proyectoFinanciable proyecto a guardar
+     * @param ref referencia donde se guarda el proyecto
+     */
     private void sendProyect(ProyectoFinanciable proyectoFinanciable, DatabaseReference ref){
         ref.child("contenido").setValue(proyectoFinanciable.getContenido());//guardamos el contenido
         ref.child("emprendedorId").setValue(proyectoFinanciable.getEmprendedorId());//guardamos la id del emprendedor

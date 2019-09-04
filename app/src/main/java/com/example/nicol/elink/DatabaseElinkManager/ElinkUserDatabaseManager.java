@@ -36,7 +36,6 @@ public class ElinkUserDatabaseManager implements AuthManager,EmprendedoresInvers
         database = FirebaseDatabase.getInstance();
     }
 
-
     @Override
     public void logIn(String email, String password,final Callback callback) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -52,7 +51,6 @@ public class ElinkUserDatabaseManager implements AuthManager,EmprendedoresInvers
                     }
                 });
     }
-
 
     /**
      * Intenta iniciar sesion chequeando el tipo de usuario seleccionado, si el email corresponde con un usuario del tipo correcto en la base de datos entonces inicia sesion normalmente.
@@ -107,7 +105,6 @@ public class ElinkUserDatabaseManager implements AuthManager,EmprendedoresInvers
 
     }
 
-
     @Override
     public void registerUser(String email, String password,final Callback callback) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -139,7 +136,8 @@ public class ElinkUserDatabaseManager implements AuthManager,EmprendedoresInvers
         FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         FactoryUser factory = new FactoryInversor();
         String userid = "" + currentFirebaseUser.getUid();
-        Usuario inversorNuevo = factory.createUser(userid,"Pepe",email);
+        Inversor inversorNuevo = (Inversor) factory.createUser(userid,"Pepe",email);
+        inversorNuevo.setDinero(10000);
         DatabaseReference databaseRef = database.getReference("users/inversores/" + userid);
         databaseRef.setValue(inversorNuevo);
     }
@@ -193,7 +191,6 @@ public class ElinkUserDatabaseManager implements AuthManager,EmprendedoresInvers
                     inversor.setDinero(dinero);
                     inversorCallback.onCallback(inversor);
                 }
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -202,9 +199,22 @@ public class ElinkUserDatabaseManager implements AuthManager,EmprendedoresInvers
         });
     }
 
+    @Override
+    public void saveEmprendedor(Emprendedor emprendedor) {
+        DatabaseReference databaseRef = database.getReference("users/emprendedores/" + emprendedor.getId());
+        databaseRef.setValue(emprendedor);
+    }
+
+    @Override
+    public void saveInversor(Inversor inversor) {
+        DatabaseReference databaseRef = database.getReference("users/inversores/" + inversor.getId());
+        databaseRef.setValue(inversor);
+    }
+
     public Activity getContext() {
         return context;
     }
+
     public void setContext(Activity context) {
         this.context = context;
     }

@@ -10,7 +10,7 @@ public class StateProyectoFinanciadoFinalizado extends StateProyecto {
     }
 
     @Override
-    public String financiar(int monto) {
+    public String financiar(double monto) {
         return "El proyecto ya esta ha concluido, no se puede financiar";
     }
 

@@ -37,7 +37,7 @@ public class ProyectoFinanciable extends Proyecto {
      * Aumenta la financiacion actual
      * @param monto
      */
-    public void financiar(int monto){
+    public void financiar(double monto){
         this.estadoActual.financiar(monto);
     }
 

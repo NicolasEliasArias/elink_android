@@ -50,7 +50,7 @@ public class ActivityAuthentication extends Activity {
 
     /**
      * Inicia sesion o registra al usuario con los datos almacenados en los inputs
-     * @param v
+     * @param v boton clickeado
      */
     public void onAuthButtonClicked(View v){
         String email = emailEditText.getText().toString().trim();

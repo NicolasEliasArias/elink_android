@@ -1,6 +1,7 @@
 package com.example.nicol.elink.Usuario;
 
 import com.example.nicol.elink.BandejaNoticias.BandejaNoticias;
+import com.example.nicol.elink.Proyecto.ProyectoFinanciable;
 
 public class Inversor extends Usuario {
 
@@ -21,6 +22,16 @@ public class Inversor extends Usuario {
     public double depositar(double monto){
         this.dinero += monto;
         return this.dinero;
+    }
+
+    public boolean invertir(ProyectoFinanciable proyectoFinanciable, double monto){
+        if(dinero < monto){
+            return false;
+        }else{
+            proyectoFinanciable.financiar(monto);
+            dinero -= monto;
+            return true;
+        }
     }
 
     //Getters y Setters

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 import com.example.nicol.elink.R;
 import com.example.nicol.elink.Fragments.AboutFragment;
-import com.example.nicol.elink.UI.MenuHandler.MenuHandler;
+import com.example.nicol.elink.UI.MenuHandler.ElinkMenuHandler;
 import com.example.nicol.elink.Usuario.Usuario;
 
 public abstract class ActivityUser extends AppCompatActivity{
@@ -19,7 +19,7 @@ public abstract class ActivityUser extends AppCompatActivity{
     private TextView userEmailTextView;
     private TextView userNameTextView;
     private NavigationView navView;
-    private MenuHandler menuHandler;
+    private ElinkMenuHandler menuHandler;
     private Usuario user;
 
     @Override
@@ -66,10 +66,10 @@ public abstract class ActivityUser extends AppCompatActivity{
     }
 
     /**
-     * prepara el menu de la aplicacion
+     * prepara el menu handler de la aplicacion con sus items
      */
     protected void prepareMenu(){
-        menuHandler = new MenuHandler(this);
+        menuHandler = new ElinkMenuHandler(this);
     }
 
     /**
@@ -123,11 +123,11 @@ public abstract class ActivityUser extends AppCompatActivity{
         this.navView = navView;
     }
 
-    public MenuHandler getMenuHandler() {
+    public ElinkMenuHandler getMenuHandler() {
         return menuHandler;
     }
 
-    public void setMenuHandler(MenuHandler menuHandler) {
+    public void setMenuHandler(ElinkMenuHandler menuHandler) {
         this.menuHandler = menuHandler;
     }
 

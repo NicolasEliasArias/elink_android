@@ -1,6 +1,8 @@
 package com.example.nicol.elink.DatabaseElinkManager;
 import com.example.nicol.elink.CallBacks.EmprendedorCallback;
 import com.example.nicol.elink.CallBacks.InversorCallback;
+import com.example.nicol.elink.Usuario.Emprendedor;
+import com.example.nicol.elink.Usuario.Inversor;
 
 public interface EmprendedoresInversoresManager {
 
@@ -28,4 +30,16 @@ public interface EmprendedoresInversoresManager {
      * @param inversorCallback callback que devuelve la instancia del inversor
      */
     public void getInversor(String id, final InversorCallback inversorCallback);
+
+    /**
+     * Guarda los datos del emprendedor en la base de datos
+     * @param emprendedor emprendedor a guardar
+     */
+    public void saveEmprendedor(Emprendedor emprendedor);
+
+    /**
+     * Guarda los datos del inversor en la base de datos
+     * @param inversor inversor a guardar
+     */
+    public void saveInversor(Inversor inversor);
 }
